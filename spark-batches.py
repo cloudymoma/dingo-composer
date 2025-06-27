@@ -1,4 +1,5 @@
 import datetime
+import pendulum
 
 from airflow.models.dag import DAG
 from airflow.providers.google.cloud.operators.dataproc import (
@@ -159,10 +160,11 @@ BATCH_NQE_CONFIG = {
 
 with DAG(
     dag_id="dataproc_sequential_orchestration_dag",
-    start_date=datetime.datetime(2025, 6, 25),
-    schedule_interval="0,30 * * * *",
+    #start_date=datetime.datetime(2025, 6, 25),
+    start_date=pendulum.datetime(2025, 6, 25, tz="Asia/Shanghai"),
+    schedule_interval="0 1 * * *",
     catchup=False,
-    tags=["dataproc", "serverless"],
+    tags=["dataproc", "serverless", "timezone"],
 ) as dag:
     # TASK 1: Run __run_serverless_standard in a sync/blocking mode
     # - retries=1: Retry once if it fails.
